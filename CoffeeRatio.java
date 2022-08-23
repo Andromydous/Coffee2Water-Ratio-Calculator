@@ -124,7 +124,9 @@ public class CoffeeRatio extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==calculateRatio) {
-			calculate();
+			if(isNumeric(waterGrams.getText()) && isNumeric(waterCoffeeRatio.getText())){
+				calculate();
+			}
 		}
 		if(e.getSource()==conversions) {
 			new Conversions();
@@ -138,6 +140,17 @@ public class CoffeeRatio extends JFrame implements ActionListener{
 		grams = Double.valueOf(waterCoffeeRatio.getText());
 		ratio = mL / grams;
 		coffeeGrams.setText(String.valueOf(Math.round(ratio)) + "g");
+	}
+	
+	public static boolean isNumeric(String string) {
+		double dblValue;
+		try {
+			dblValue = Double.parseDouble(string);
+			return true;
+		} catch (NumberFormatException e) {
+			System.out.println("Input must be a number");
+		}
+		return false;
 	}
 	
 }

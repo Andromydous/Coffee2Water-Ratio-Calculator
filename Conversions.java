@@ -21,12 +21,11 @@ public class Conversions extends JFrame implements ActionListener{
 	JTextField quarts = new JTextField();
 	JTextField gallon = new JTextField();
 	
-	JLabel cupsToGramsLabel = new JLabel();
-	JLabel quartsToMililiterLabel = new JLabel();
-	JLabel gallonToLiterLabel = new JLabel();
+	JButton cupsToGramsButton = new JButton();
+	JButton quartsToMililiterButton = new JButton();
+	JButton gallonToLiterButton = new JButton();
 	
 	JButton coffeeRatio = new JButton();
-	JButton convert = new JButton();
 	
 	Font font = new Font("Roman Times", Font.PLAIN, 15);
 	
@@ -44,13 +43,14 @@ public class Conversions extends JFrame implements ActionListener{
 		cups.setEditable(true);
 		cups.setOpaque(true);
 		
-		cupsToGramsLabel.setBounds(180,10,215,50);
-		cupsToGramsLabel.setBackground(Color.darkGray);
-		cupsToGramsLabel.setText("Enter cups");
-		cupsToGramsLabel.setFont(font);
-		cupsToGramsLabel.setForeground(Color.orange);
-		cupsToGramsLabel.setHorizontalAlignment(JLabel.CENTER);
-		cupsToGramsLabel.setOpaque(true);
+		cupsToGramsButton.setBounds(180,10,215,50);
+		cupsToGramsButton.setBackground(Color.darkGray);
+		cupsToGramsButton.setText("Enter cups");
+		cupsToGramsButton.setFont(font);
+		cupsToGramsButton.setForeground(Color.orange);
+		cupsToGramsButton.setHorizontalAlignment(JLabel.CENTER);
+		cupsToGramsButton.setOpaque(true);
+		cupsToGramsButton.addActionListener(this);
 		
 		quarts.setBounds(10,70,150,50);
 		quarts.setBackground(Color.white);
@@ -59,13 +59,14 @@ public class Conversions extends JFrame implements ActionListener{
 		quarts.setForeground(Color.black);
 		quarts.setOpaque(true);
 		
-		quartsToMililiterLabel.setBounds(180,70,215,50);
-		quartsToMililiterLabel.setBackground(Color.darkGray);
-		quartsToMililiterLabel.setText("Enter quarts");
-		quartsToMililiterLabel.setFont(font);
-		quartsToMililiterLabel.setForeground(Color.orange);
-		quartsToMililiterLabel.setHorizontalAlignment(JLabel.CENTER);
-		quartsToMililiterLabel.setOpaque(true);
+		quartsToMililiterButton.setBounds(180,70,215,50);
+		quartsToMililiterButton.setBackground(Color.darkGray);
+		quartsToMililiterButton.setText("Enter quarts");
+		quartsToMililiterButton.setFont(font);
+		quartsToMililiterButton.setForeground(Color.orange);
+		quartsToMililiterButton.setHorizontalAlignment(JLabel.CENTER);
+		quartsToMililiterButton.setOpaque(true);
+		quartsToMililiterButton.addActionListener(this);
 		
 		gallon.setBounds(10,130,150,50);
 		gallon.setBackground(Color.white);
@@ -74,21 +75,14 @@ public class Conversions extends JFrame implements ActionListener{
 		gallon.setForeground(Color.black);
 		gallon.setOpaque(true);
 		
-		gallonToLiterLabel.setBounds(180,130,215,50);
-		gallonToLiterLabel.setBackground(Color.darkGray);
-		gallonToLiterLabel.setText("Enter gallons");
-		gallonToLiterLabel.setFont(font);
-		gallonToLiterLabel.setForeground(Color.orange);
-		gallonToLiterLabel.setHorizontalAlignment(JLabel.CENTER);
-		gallonToLiterLabel.setOpaque(true);
-		
-		convert.setBounds(10, 190, 150, 50);
-		convert.setBackground(Color.darkGray);
-		convert.setFont(font);
-		convert.setForeground(Color.orange);
-		convert.setText("Convert");
-		convert.setOpaque(true);
-		convert.addActionListener(this);
+		gallonToLiterButton.setBounds(180,130,215,50);
+		gallonToLiterButton.setBackground(Color.darkGray);
+		gallonToLiterButton.setText("Enter gallons");
+		gallonToLiterButton.setFont(font);
+		gallonToLiterButton.setForeground(Color.orange);
+		gallonToLiterButton.setHorizontalAlignment(JLabel.CENTER);
+		gallonToLiterButton.setOpaque(true);
+		gallonToLiterButton.addActionListener(this);
 		
 		coffeeRatio.setBounds(200, 190, 150, 50);
 		coffeeRatio.setBackground(Color.darkGray);
@@ -106,10 +100,9 @@ public class Conversions extends JFrame implements ActionListener{
 		panel.add(cups);
 		panel.add(quarts);
 		panel.add(gallon);
-		panel.add(cupsToGramsLabel);
-		panel.add(quartsToMililiterLabel);
-		panel.add(gallonToLiterLabel);
-		panel.add(convert);
+		panel.add(cupsToGramsButton);
+		panel.add(quartsToMililiterButton);
+		panel.add(gallonToLiterButton);
 		panel.add(coffeeRatio);
 		
 		frame.add(panel);
@@ -127,22 +120,33 @@ public class Conversions extends JFrame implements ActionListener{
 			new CoffeeRatio();
 			frame.dispose();
 		}
-		if(e.getSource()==convert) {
-			calculate();
+		if(e.getSource()==cupsToGramsButton) {
+			if(isNumeric(cups.getText())){
+				cupsToGramsConversion();
+			}
+		}
+		if(e.getSource()==quartsToMililiterButton) {
+			if(isNumeric(quarts.getText())) {
+				quartsToMililitersConversion();
+			}
+		}
+		if(e.getSource()==gallonToLiterButton) {
+			if(isNumeric(gallon.getText())){
+				gallonToLiterConversion();
+			}
 		}
 		
 	}
 	
-	public void calculate() {
-		if(!(cups.getText().isEmpty())) {
-			cupsToGramsConversion();
+	public static boolean isNumeric(String string) {
+		double dblValue;
+		try {
+			dblValue = Double.parseDouble(string);
+			return true;
+		} catch (NumberFormatException e) {
+			System.out.println("Input must be a number");
 		}
-		if(!(quarts.getText().isEmpty())) {
-			quartsToMililitersConversion();
-		}
-		if(!(gallon.getText().isEmpty())) {
-			gallonToLiterConversion();
-		}
+		return false;
 	}
 	
 	public void cupsToGramsConversion() {
